@@ -1,0 +1,129 @@
+.jspsych-content {
+    margin-top: 3% !important;
+}
+
+.jspsych-survey-likert-statement{
+  padding-top: 10px !important;
+}
+
+#jspsych-word-by-word-stimulus p {
+  text-align: left;
+}
+.parent {
+  text-align: center;
+}
+.parent > ul {
+  display: inline-block;
+  text-align: left;
+}
+
+.parent > ol {
+/*  display: inline-block;*/
+  text-align: left;
+}
+
+.parent > p {
+  text-align: left;
+}
+
+.reducepadding ul {
+  padding: 0 0 10px;
+}
+
+table {
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+th {
+    background-color: rgb(245,245,245);
+}
+
+th, td {
+    padding: 5px;
+    text-align: left;
+    font-size: 16px;
+    line-height: normal;
+}
+
+.ui-tooltip.definition {
+    
+    background-color: lightgray;
+    background-image: none;
+}
+
+.ui-tooltip-content {
+    font-size:10pt;
+    line-height: 1.5em;
+}
+
+.correct {
+    background-color: rgba(50,205,50,.5);
+}
+
+.incorrect {
+    background-color: rgba(255,0,0,.4);
+}
+
+.vizimg {
+  width: 42%;
+}
+
+.rate_elements {
+  text-align: left;
+}
+
+.rate_elements p {
+  text-align: center;
+}
+
+.rate_elements th, .rate_elements td {
+  font-size: 8px;
+}
+
+.rate_elements .vizimg {
+  width: 300px;
+}
+
+
+
+/*
+.tooltip {
+
+  position: relative;
+
+}
+
+.tooltip .tooltiptext {
+  visibility: hidden;
+  width: 600px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -120px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}*/

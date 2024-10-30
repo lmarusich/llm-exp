@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Decision-Making Experiment</title>
+        <!-- <script src="/assets/javascripts/jatos.js"></script> -->
+        
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script> 
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.14.0/themes/smoothness/jquery-ui.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.14.0/jquery-ui.min.js"></script>
+        
+        <script src="jspsych/dist/jspsych.js"></script>
+        <script src="jspsych/dist/plugin-browser-check.js"></script>
+        <script src="jspsych/dist/plugin-html-button-response.js"></script>
+        <script src="jspsych/dist/plugin-word-by-word.js"></script>
+        
+
+        <!--<script src="jspsych-6.3.1/plugins/jspsych-survey-likert.js"></script>
+        <script src="jspsych-6.3.1/plugins/jspsych-survey-multi-choice.js"></script>
+        <script src="jspsych-6.3.1/plugins/jspsych-survey-text.js"></script>
+        <script src="jspsych-6.3.1/plugins/jspsych-image-keyboard-response.js"></script>
+        <script src="jspsych-6.3.1/plugins/jspsych-fullscreen.js"></script>
+        <script src="jspsych-6.3.1/plugins/jspsych-call-function.js"></script>
+        <script src="jspsych-6.3.1/plugins/jspsych-preload.js"></script>
+        <script src="jspsych-6.3.1/plugins/jspsych-external-html.js"></script> -->
+
+        
+        <script src="NewData/census_dataset.js"></script>
+        <script src="NewData/credit_dataset.js"></script> 
+        <script src="NewData/education_dataset.js"></script>
+        <script src="createStimuli.js"></script>
+        <script src="extras.js"></script>
+
+        <!-- <script src="extras.js"></script>
+        
+        <link href="jspsych.css" rel="stylesheet"> No idea why Git Pages blocks this file if it's in a subfolder, but this makes it work -->
+        <link href="jspsych/dist/jspsych.css" rel="stylesheet" type="text/css" />
+        <link href="tooltip.css" rel="stylesheet" type="text/css">
+        <link href="extra.css" rel="stylesheet" type="text/css">
+        
+        <!-- <link href="options.css" rel="stylesheet" type="text/css">   
+        <div w3-include-html="options.html"></div> --> 
+        
+    </head>
+
+    <body>
+    
+    </body>
+
+
+    <script>
+
+        var jsPsych = initJsPsych({
+            exclusions: {
+                    min_width: 1366,
+                    min_height: 768
+                    },
+                //Additional data logging: https://www.jspsych.org/overview/record-browser-interactions/
+                on_interaction_data_update: function(data) {
+                    console.log(JSON.stringify(data))
+                    jsPsych.data.get().push(data);
+                },
+                timeline: timeline,
+                on_trial_start: function() {
+                    $('.ui-tooltip').remove();
+                },
+                on_finish: function() {
+                            
+                //Save data locally (need to create condition so this isn't used for the online version)
+                    //jsPsych.data.get().localSave('csv', 'mydata.csv');
+
+                    //save data specifically for testing
+                    console.log('finish')
+                    var resultJson = jsPsych.data.get().json();
+                    var resultCSV = jsPsych.data.get().csv();
+                    console.log(resultCSV)
+                    // jatos.submitResultData(resultCSV, jatos.startNextComponent);
+                }
+        });
+
+        var timeline = []; 
+            
+        var trial = {
+            type: jsPsychBrowserCheck,
+            minimum_width: 1366,
+            minimum_height: 768
+        };
+        
+
+
+        
+        var trial3 = {
+  type: jsPsychHtmlButtonResponse,
+  stimulus: '<p style="font-size:48px; color:red;">GREEN</p>',
+  choices: ['Red', 'Green', 'Blue'],
+  prompt: "<p>What color is the ink?</p>"
+};
+        
+
+        var exp_dataset       = "census_dataset";
+        var condition = "Control"
+        // var condition
+        // var skip_instructions;
+        // var skip_practice;
+        // var skip_end;
+        // var exp_options;
+        var num_test_trials = 1;
+        // var CYPRESS_jspsychrespdata
+        // var CYPRESS_jspsychconfdata
+
+        //CONDITION is going to come from JATOS studySessionData: "assigned_condition"
+        //we'll define what each number means here
+        //3 datasets X 2 viz X 2 (pt vs. dist) conditions = 12 total
+
+        // var SKIP = 2;
+
+        // jatos.onLoad(function() {
+
+            // CONDITION = parseInt(jatos.studySessionData.assigned_condition);
+            // console.log(jatos.studySessionData.assigned_condition)
+                
+            // console.log(jatos.urlQueryParameters.PROLIFIC_PID)
+            // jsPsych.data.addProperties({prolific_id: jatos.urlQueryParameters.PROLIFIC_PID});
+
+            // console.log(CONDITION)
+            // console.log(SKIP)
+
+            // if (CONDITION <= 4){
+            //     exp_dataset = "census_dataset";
+            // } else if (CONDITION <= 8){
+            //     exp_dataset = "credit_dataset";
+            // } else {
+            //     exp_dataset = "education_dataset";
+            // }
+
+            // if (CONDITION % 4 == 1){
+            //     condition = "Uncertainty_Pt_1";
+            // } else if (CONDITION % 4 == 2){
+            //     condition = "Uncertainty_Dist_1";
+            // } else if (CONDITION % 4 == 3){
+            //     condition = "Uncertainty_Pt_2";
+            // } else{
+            //     condition = "Uncertainty_Dist_2";
+            // }
+            
+            
+            // // SKIP = 3
+            // if (SKIP > 0){
+            //     skip_instructions = true;
+            // } if (SKIP > 1) {
+            //     skip_practice = true;
+            // } if (SKIP > 2) {
+            //     skip_end = true; 
+            // }
+            
+            // console.log('dataset is ' + exp_dataset)
+            // console.log('condition is ' + condition);
+
+
+            // var show_all          = false; 
+            // var num_prac_trials  =  8;
+            var max_test_trials = 50;
+
+   
+        
+            $(document).tooltip({
+                content: function () {
+                    return this.getAttribute("title");
+                },
+                position: {
+                    my: "left top-10",
+                    at: "right top",
+                    collision: "flipfit"
+                },
+                classes: {
+                    "ui-tooltip": "definition"
+                }        
+            });
+
+
+            // var preload_images
+
+            if (exp_dataset == "census_dataset"){
+                exp_options = census_options;
+            } else if (exp_dataset == "credit_dataset"){
+                exp_options = credit_options;
+            } else if (exp_dataset == "education_dataset"){
+                exp_options = edu_options;
+            }
+
+            dataset = exp_options.dataset;
+            dataset_stims = exp_options.stimuli;
+            practice_stims = exp_options.practice_stims;
+            definitions = exp_options.definitions;
+            response_choices = exp_options.response_choices;  
+            instructions = exp_options.instructions;
+            understanding_choices = exp_options.understanding;
+            // if (condition == "Uncertainty_Pt_1"){
+            //     preload_images = exp_options.imagespt1
+            // } else if (condition == "Uncertainty_Dist_1"){
+            //     preload_images = exp_options.imagesdist1
+            //     preload_images.push(practice_stims[1].ptviz1, practice_stims[exp_options.uc_index].ptviz1)
+            // } else if (condition == "Uncertainty_Pt_2"){
+            //     preload_images = exp_options.imagespt2
+            // } else if (condition == "Uncertainty_Dist_2"){
+            //     preload_images = exp_options.imagesdist2
+            //     preload_images.push(practice_stims[1].ptviz2, practice_stims[exp_options.uc_index].ptviz2)
+            // }
+
+            // var timeline = []; 
+                   
+            // // Preloading of images here
+            
+            // var file_load_count = 0;
+            // var preload = {
+            //     type: 'preload',
+            //     auto_preload: true,
+            //     max_load_time: 60000, //1 min timeout 
+            //     images: preload_images,
+            //     show_progress_bar: true,
+            //     message: 'Please wait while the experiment loads. This may take a few minutes.',
+            //     on_finish: function(data){
+            //         console.log(file_load_count);
+            //         data.window_resolution2 = window.innerWidth + ' x ' + window.innerHeight
+            //     },
+            //     on_success: function(file) {
+            //         file_load_count++;
+            //     }
+            // }
+            // timeline.push(preload);
+            
+
+            var predictors = Object.keys(definitions);
+            predictors = Object.keys(definitions).splice(0,predictors.length-9); //remove test variables from table header
+            
+            var tableheader = "<table class = 'absolute', border='1'><tr>";
+            for (var x in predictors){
+                tableheader += "<th title = '" + definitions[predictors[x]] + "'>" + predictors[x] + " <span style = 'font-weight:normal'>&#9432</span></th>";
+            }
+            tableheader += "</tr>";
+
+            // //create one example
+            // var example_stimulus = createStimuli(tableheader, practice_stims[1], 'example');      
+            // var practice_stimuli = [];
+            // for (var i = 0; i < num_prac_trials; i++) { 
+            //     practice_stimuli.push(createStimuli(tableheader, practice_stims[i], 'practice'));
+            // }
+            
+            
+
+            var test2 = {
+            type: jsPsychWordByWord,
+            words: census_llm_preds[0].Explanation,
+            stimulus: createStimuli(tableheader, dataset_stims[0], 'llm-example')
+            // stimulus: jsPsych.timelineVariable('stimulus'),
+            // choices: response_choices,
+            // choices: ["One", "Two"],
+            // data: jsPsych.timelineVariable('data'),
+            // on_finish: function(data){
+                // data.correct = data.response == (data.correct_response);
+                // data.window_resolution2 = window.innerWidth + ' x ' + window.innerHeight
+            // }
+        };
+
+            var test_stimuli = [];
+            for (var i = 0; i < max_test_trials; i++) { 
+                test_stimuli.push(createStimuli(tableheader, dataset_stims[i], 'test'));
+            };
+           
+            console.log(test_stimuli)
+        
+            // var instructionset1 = {
+            //     type: "html-button-response",
+            //     choices: ["Next"],
+            //     post_trial_gap: 0,
+            //     timeline: [
+            //         //{stimulus: consent, choices: ["I agree"]},
+            //         {stimulus: instructions[0], post_trial_gap: 500},
+            //         {stimulus: instructions[1], post_trial_gap: 500},
+            //         {stimulus: example_stimulus[0]},
+            //         {stimulus: example_stimulus[0] + "<p>Here is the information for one person</p><p>Note that you can hover over the name of each variable to see its definition again</p>"}
+            //     ]
+            // };
+
+            // var temparray = [
+            //     {stimulus: example_stimulus[0] + ai_instructions},
+            //     {stimulus: example_stimulus[1]}
+            // ];
+            // if ((condition === "Uncertainty_Pt_1") || (condition === "Uncertainty_Pt_2")) {  
+            //     temparray.push({stimulus: example_stimulus[1] + uqpt_instructions}, {stimulus: example_stimulus[2]})
+            // } else if ((condition === "Uncertainty_Dist_1") || (condition === "Uncertainty_Dist_2")) {
+            //     temparray.push( {stimulus: example_stimulus[1] + uqpt_instructions}, {stimulus: example_stimulus[2]}, {stimulus: example_stimulus[1] + uqdis_instructions}, {stimulus: example_stimulus[3]})
+            // }
+
+            // var instructionset2 = {
+            //     type: "html-button-response",
+            //     choices: ["Next"], 
+            //     post_trial_gap: 0,
+            //     timeline: temparray
+                
+            // }
+
+            // var instructionset3 = {
+            //     type: "html-button-response",
+            //     post_trial_gap: 1000,
+            //     timeline: [
+            //         {stimulus: example_stimulus[example_stimulus.length - 1] + instructions[2], choices: response_choices},
+            //         {stimulus: "<p>" + prac_instructions + "</p>", choices: ["Next"]}
+            //     ]
+            // };
+
+
+            // //HERE'S WHERE SKIP INSTRUCTIONS OPTION GETS USED
+            // if (!skip_instructions){
+            //     timeline.push(instructionset1);
+            //     if (condition != "Control"){
+            //         timeline.push(instructionset2);
+            //     }
+            //     timeline.push(instructionset3);
+            // }
+
+            var test = {
+            type: jsPsychHtmlButtonResponse,
+            stimulus: jsPsych.timelineVariable('stimulus'),
+            choices: response_choices,
+            data: jsPsych.timelineVariable('data'),
+            on_finish: function(data){
+                data.correct = data.response == (data.correct_response);
+                // data.window_resolution2 = window.innerWidth + ' x ' + window.innerHeight
+            }
+            };
+        
+            // var scale = ["No Confidence (Guessing)", "Low Confidence", "Moderate Confidence", "High Confidence", "Full Confidence (Certain)"];
+
+            // var likert_trial = {
+            //     type: 'survey-likert',
+            //     questions: [
+            //         {prompt: "How confident were you in your answer?", name: 'Confidence', labels: scale, required: true}
+            //     ],
+            //     preamble: function(){
+            //         console.log(jsPsych.data.get().last(1).values())
+            //         var last_trial_stim = jsPsych.data.get().last(1).values()[0].stimulus;
+            //         var last_trial_answer = jsPsych.data.get().last(1).values()[0].response;
+            //         return last_trial_stim + "<p>Your Answer: " + response_choices[last_trial_answer] + "</p>";
+            //     },
+            //     scale_width: 750,
+            //     data: {test_part: 'confidence'},
+            //     css_classes: ['reducepadding']
+            // };
+        
+            // var feedback = {
+            // type: 'html-keyboard-response',
+            // stimulus: function(){
+                
+            //     var last_trial_stim = jsPsych.data.get().filter({trial_type: 'html-button-response'}).last(1).values()[0].stimulus;
+            //     var last_trial_answer = jsPsych.data.get().filter({trial_type: 'html-button-response'}).last(1).values()[0].response;
+            //     var last_trial_correct = jsPsych.data.get().filter({trial_type: 'html-button-response'}).last(1).values()[0].correct;
+            //     if(last_trial_correct){
+            //     return last_trial_stim + "<p class = 'correct'>Your Answer: " + response_choices[last_trial_answer] + "</p><p class = 'correct'>Correct!</p>";
+            //     } else {
+            //     return last_trial_stim + "<p class = 'incorrect'>Your Answer: " + response_choices[last_trial_answer] + "<p class = 'incorrect'>Wrong.</p>";
+            //     }
+            // },
+            // choices: jsPsych.NO_KEYS,
+            // trial_duration: 3000,
+            // post_trial_gap: 500,
+            // data: {test_part: 'feedback'}
+            // }
+            
+            // var practice_procedure = {
+            //     timeline: [test, likert_trial, feedback],
+            //     timeline_variables: practice_stimuli,
+            //     randomize_order: true,
+            //     repetitions: 1,
+            //     sample: {
+            //         type: 'without-replacement',
+            //         size: 8,
+            //     } 
+            // }
+
+            var test_instructions = {
+                type: jsPsychHtmlButtonResponse,
+                stimulus: "<p>" + instructions6 + "</p>",
+                post_trial_gap: 1000,
+                choices: ["Next"]
+            };
+            
+            var test_procedure = {
+            // timeline: [test, likert_trial, feedback],
+            timeline: [test],
+            timeline_variables: test_stimuli,
+            randomize_order: true,
+            repetitions: 1,
+                sample: {
+                    type: 'without-replacement',
+                    size: num_test_trials
+                }
+            }
+    
+
+            // //HERE'S WHERE SKIP PRACTICE GETS USED
+            // if (!skip_practice){
+            //     timeline.push(practice_procedure)
+            // } 
+            // if(!skip_end){
+                timeline.push(test_instructions, test_procedure)
+            // }
+
+            // var age_options = ["18-24", "25-34", "35-44", "45-54", "55-64", "65+"];
+            // var gender_options = ["Male", "Female", "Other", "Prefer not to answer"];
+            // var edu_demo_options = ["Less than high school diploma", "High school diploma or equivalent (e.g., GED)", "Some college but no degree", "Associate\'s degree", "Bachelor\'s degree", "Graduate degree"];
+                
+            // var demographics = {
+            //     type: "survey-multi-choice",
+            //     questions: [
+            //         {prompt: "How old are you?", name: 'Age', options: age_options, required:true}, 
+            //         {prompt: "What is your gender?", name: 'Gender', options: gender_options, required: true},
+            //         {prompt: "What is the highest level of education you have completed?", name: 'Edu', options: edu_demo_options, required: true}
+            //     ],
+            //     data: {test_part: 'demographics'},
+            //     on_start: function(trial) {
+            //     CYPRESS_jspsychrespdata = jsPsych.data.get().filter([{test_part: 'practice'}, {test_part: 'test'}]).ignore('stimulus').select("response").values
+            //     CYPRESS_jspsychconfdata = jsPsych.data.get().filter({test_part: 'confidence'}).ignore('stimulus').select("response").values.map(a => a.Confidence)
+            //     }
+            // };
+         
+        
+            // var freeresponse = {
+            //     type: "survey-text",
+            //     questions: [
+            //         {prompt: 'What strategies did you use to make classifications in this task?', placeholder: 'I tended to...', rows:10, columns: 50}
+            //     ],
+            //     data: {test_part: 'freeresponse'}
+            // }
+
+         
+            // var scale2 = ["Not Useful", "", "Moderately Useful", "", "Very Useful"];
+
+            // var which_elements = {
+            //     type: "survey-likert",
+            //     preamble: "<b>How useful was each piece of information for making your decisions in this task?</b>",
+            //     //scale_width: 500,
+            //     questions: function(){
+            //         var questions_array = [
+            //             {prompt: "<br><div class = 'rate_elements'><hr>1. Table with each person's info:" + example_stimulus[0] + "</div>", name: 'table_useful', labels: scale2, required: true}
+            //         ];
+            //         if (condition != "Control"){
+            //             var temppred = example_stimulus[1].split("</table>").pop()
+            //             questions_array.push({prompt: "<br><div class = 'rate_elements'><hr>2. AI Prediction:" + temppred + "</div>", name: 'prediction_useful', labels: scale2, required: true})
+            //             if (condition != "AI_Pred"){
+            //                 temppred = "<p>" + example_stimulus[example_stimulus.length - 1].split("<p>").pop().slice(0,-4) + "</p>";
+            //                 questions_array.push({prompt: "<br><div class = 'rate_elements'><hr>3. Visualization:" + temppred + "</div>", name: 'viz_useful', labels: scale2, required: true})
+            //             }
+            //         } 
+
+            //         return questions_array;
+
+            //     },
+            //     data: {test_part: 'which_elements'}
+            // }
+
+            // //Usability questionnaires: Task difficulty and task sat
+            // var likert_scale1 = ["Very Difficult", 
+            //                     "", 
+            //                     "", 
+            //                     "", 
+            //                     "Very Easy"
+            //                     ];
+
+            // var likert_scale2 = ["Strongly Disagree", 
+            //                     "Disagree", 
+            //                     "Neutral", 
+            //                     "Agree", 
+            //                     "Strongly Agree"
+            //                     ];
+
+            // var task_diff = ["Overall, this task was?"];
+            // var task_sat = ["I was satisfied with the ease of completing this task?"];
+            
+            // var usability_questions = {
+            //     type: "survey-likert",
+            //     timeline: [                
+            //     {questions: [{prompt: task_diff, labels: likert_scale1}]},
+            //     {questions: [{prompt: task_sat,  labels: likert_scale2}]}
+            // ],    
+            // scale_width: 750,
+            // css_classes: ['reducepadding'],
+            // data: {test_part: 'usability'}
+            // };
+
+
+            // var uc_index = exp_options.uc_index;
+            // var understanding_stims = [practice_stims[uc_index].ptviz1, practice_stims[uc_index].distviz1]
+            // if (condition.endsWith("2")){
+            //     understanding_stims = [practice_stims[uc_index].ptviz2, practice_stims[uc_index].distviz2]
+            // }
+            // var understanding_check = {
+            //     type: "html-button-response",
+            //     post_trial_gap: 1000,
+            //     choices: understanding_choices[0],
+            //     data: {test_part: 'understanding_check'},
+            //     stimulus: "<p>Understanding Check: What does the AI predict for this person, and with what probability?</p><p><img class = 'vizimg' src=" + understanding_stims[0] + "></img></p><br>"
+            // }
+
+            // var understanding_check2 = {
+            //     type: "html-button-response",
+            //     post_trial_gap: 1000,
+            //     choices: understanding_choices[1],
+            //     data: {test_part: 'understanding_check'},
+            //     stimulus: "<p>Understanding Check: For cases very similar to this one, which option falls in the range of plausible AI predictions?</p><p><img class = 'vizimg' src=" + understanding_stims[1] + "></img></p><br>"
+            // }
+        
+        
+            // //Add numeracy tests here
+            // //Berlin Numeracy Test Multiple Choice Format: http://www.riskliteracy.org/files/BNT%20Versions.pdf
+            // //Make this unclickable too: https://www.w3docs.com/snippets/javascript/how-to-disable-text-selection-copy-cut-paste-and-right-click-on-a-web-page.html 
+        
+            // // Four trials for the four multiple choice questions  
+            // var bnt_questions = {
+            //     type: 'survey-multi-choice',
+            //     timeline: [
+            //         {preamble: bnt_instructions, questions: [{prompt: bnt_q1, options: q1_choices, required: true}]},
+            //         {questions: [{prompt: bnt_q2, options: q2_choices, required: true}]},
+            //         {questions: [{prompt: bnt_q3, options: q3_choices, required: true}]},
+            //         {questions: [{prompt: bnt_q4, options: q4_choices, required: true}]}  
+            //     ],         
+            //     data: {test_part: 'bnt'}
+            // }
+
+
+            // //HERE'S WHERE SKIP DEMO and NUMERACY GETS USED
+            // //if(!skip_end){
+            //     timeline.push(demographics, freeresponse, which_elements, usability_questions, bnt_questions);
+            //     if (condition.startsWith("Unc")){
+            //         timeline.push(understanding_check);
+            //         if (condition.startsWith("Uncertainty_Dist")){
+            //             timeline.push(understanding_check2);
+            //         }
+            //     }
+
+            // /* define debrief trial */
+            // var debriefscreen = {
+            //     type: "html-button-response",
+            //     stimulus: debrief + '<div class = "parent"><p>Click "Finished" to return to Prolific and complete the study</p></div>',
+            //     choices: ["Finished"]
+    
+            // };
+            // timeline.push(debriefscreen);
+                
+       
+
+            jsPsych.run([trial, test2,timeline]);
+
+        // });
+     </script>
+</html>

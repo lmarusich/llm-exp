@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Decision-Making Experiment</title>
+        <script src="/assets/javascripts/jatos.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.1/jquery.min.js"></script>  
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>      
+        <script src="jspsych-6.3.1/jspsych.js"></script>
+        <script src="jspsych-6.3.1/plugins/jspsych-html-keyboard-response.js"></script>
+        <script src="jspsych-6.3.1/plugins/jspsych-html-button-response.js"></script>
+        <link href="jspsych.css" rel="stylesheet"> <!--No idea why Git Pages blocks this file if it's in a subfolder, but this makes it work-->
+        <link href="extra.css" rel="stylesheet" type="text/css">
+        <link href="tooltip.css" rel="stylesheet" type="text/css">
+        <link href="options.css" rel="stylesheet" type="text/css">   
+        <div w3-include-html="options.html"></div>
+
+</head>
+
+<body>
+    
+</body>
+
+
+<script>
+
+    jatos.onLoad(function() {
+
+        var consent = 
+    "<div class = 'parent'><p><strong>Please read the consent form carefully</strong></p><p>We invite you to participate in a web-based online experiment on decision-making. The experiment should take no more than <span style='color:#ff0000; font-weight:bold;'>30</span> minutes to complete.</p><p><strong>You must be at least 18 years old to participate.</p><p>The decision to participate in this research project is voluntary.</strong> You do not have to participate and you can refuse to answer any question. Even if you begin the web-based experiments, you can stop at any time by closing your browser.</p><p><strong>There are no foreseeable risks or discomforts to you for taking part in this study.</strong> We anticipate that it will take you at most  <span style='color:#ff0000; font-weight:bold;'>30</span> minutes to complete this task. However, you will only be rewarded for completing the task not for the length of time you participate.</p><p><strong>You will be compensated for good faith participation in this experiment. Submission will be rejected if they are completed in a manner that appears to be random, implausibly fast, or otherwise negligent.</p><p>Your data will be handled in a confidential manner.</strong> Your worker/user ID or a similar identifier will only be used for payment. Following payment it will be unlinked from the response data. The anonymized data may be publicly shared on the Open Science Framework or a similar platform. The purposes of data sharing are to document the results reported in a paper and secondary analysis of the data by others.</p><p><strong>If you have any questions about this study, please contact:</strong> Jonathan Bakdash, jonathan.z.bakdash.civ@army.mil </p><p><strong>This study has been reviewed and approved by Army Research Laboratory (ARL). ARL&#39;s Human Research Protection Program/Institutional Review Board shall have access to records for auditing and checking compliance with regulations.</p><p>By clicking below you are indicating that you consent to participate in the experiment.</p></div> ";
+
+
+        var timeline = []; 
+  
+        //Find where instructions are created? In the consent? 
+        var consenttrial = {
+            type: "html-button-response",
+            stimulus: consent,
+            choices: ["I agree"],
+            post_trial_gap: 0,
+        };
+
+        timeline.push(consenttrial);
+
+
+        jsPsych.init({
+            exclusions: {
+                min_width: 1366,
+                min_height: 768
+                },
+            timeline: timeline,
+            on_finish: function() {
+                        
+            //Save data locally (need to create condition so this isn't used for the online version)
+                //jsPsych.data.get().localSave('csv', 'mydata.csv');
+
+                //save data specifically for testing
+                console.log('agreed to consent')
+
+                jatos.startNextComponent();               
+            }
+       });
+    });
+     </script>
+</html>
